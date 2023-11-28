@@ -10,14 +10,11 @@ public class DictionaryImpl implements Dictionary {
     @Override
     public void defineWord(String word, String definition) {
         List<String> entry = dictionary.get(word);
-        if (entry==null){
-            entry=new ArrayList<>();
-            entry.add(definition);
-            dictionary.put(word, entry);
-        } else {
-            entry.add(definition);
-            dictionary.replace(word, entry);
+        if (entry==null) {
+            entry = new ArrayList<>();
         }
+        entry.add(definition);
+        dictionary.put(word, entry);
     }
 
     @Override
