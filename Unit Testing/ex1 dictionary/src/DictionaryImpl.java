@@ -12,9 +12,12 @@ public class DictionaryImpl implements Dictionary {
         List<String> entry = dictionary.get(word);
         if (entry==null){
             entry=new ArrayList<>();
+            entry.add(definition);
+            dictionary.put(word, entry);
+        } else {
+            entry.add(definition);
+            dictionary.replace(word, entry);
         }
-        entry.add(definition);
-        dictionary.replace(word, entry);
     }
 
     @Override
