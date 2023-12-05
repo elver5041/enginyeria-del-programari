@@ -39,5 +39,9 @@ public class ReceiptTest {
         receipt.addTaxes(BigDecimal.valueOf(0.1));
         assertThrows(IsClosedException.class, () -> receipt.addTaxes(BigDecimal.valueOf(0.1)));
     }
+    @Test
+    public void testItemNotDB(){
+        assertThrows(DoesNotExistException.class, () -> receipt.addLine("Moniato",3));
+    }
 }
 
