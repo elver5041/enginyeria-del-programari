@@ -12,22 +12,23 @@ public class Receipt {
     BigDecimal taxes = BigDecimal.ZERO;
 
     public void addLine(String productId, int numUnits) throws IsClosedException, DoesNotExistException {
-        if(isReceiptClosed) throw new IsClosedException("receipt already closed");
+        if(isReceiptClosed)
+            throw new IsClosedException("receipt already closed");
         BigDecimal pricePerUnit = productsDB.getPrice(productId);
         receipt.add(new Line(pricePerUnit,numUnits));
     }
 
     public void addTaxes(BigDecimal percent) throws IsClosedException {
-        if(isReceiptClosed) throw new IsClosedException("receipt already closed");
+        if(isReceiptClosed)
+            throw new IsClosedException("receipt already closed");
         taxes = getTotal().multiply(percent);
         isReceiptClosed = true;
     }
 
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
-        for(Line line : receipt){
+        for(Line line : receipt)
             total = total.add(line.getTotal());
-        }
         return total.add(taxes);
     }
 }

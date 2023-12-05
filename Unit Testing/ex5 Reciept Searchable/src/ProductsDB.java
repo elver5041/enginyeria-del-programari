@@ -14,7 +14,8 @@ public class ProductsDB {
 
     public BigDecimal getPrice(String productID) throws DoesNotExistException{
         BigDecimal fetched = DB.get(productID);
-        if (fetched==null) throw new DoesNotExistException("item not in the DB");
+        if (fetched==null)
+            throw new DoesNotExistException("item not in the DB");
         return fetched;
     }
 }
