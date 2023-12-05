@@ -1,3 +1,4 @@
+import exceptions.IsClosedException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -16,7 +17,7 @@ public class test {
         receipt.addLine(BigDecimal.TEN, 2);
         receipt.addTaxes(BigDecimal.valueOf(0.1));
         assertEquals(BigDecimal.valueOf(22.0), receipt.getTotal());
-        assertTrue(receipt.isRecieptClosed);
+        assertTrue(receipt.isReceiptClosed);
     }
     @Test
     public void testAddLineAfterClosure() throws IsClosedException {
