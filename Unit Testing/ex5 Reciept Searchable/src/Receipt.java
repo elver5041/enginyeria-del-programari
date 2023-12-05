@@ -21,7 +21,8 @@ public class Receipt {
     public void addTaxes(BigDecimal percent) throws IsClosedException {
         if(isReceiptClosed)
             throw new IsClosedException("receipt already closed");
-        taxes = getTotal().multiply(percent);
+        BigDecimal total = getTotal();
+        taxes = total.add(total.multiply(percent));
         isReceiptClosed = true;
     }
 

@@ -8,8 +8,8 @@ public class ProductsDB {
     HashMap<String,BigDecimal> DB = new HashMap<>();
 
     public ProductsDB(){}
-    public void addItem(String productID, BigDecimal PPI){
-        DB.put(productID,PPI);
+    public void addItem(String productID, BigDecimal PPU){
+        DB.put(productID,PPU);
     }
 
     public BigDecimal getPrice(String productID) throws DoesNotExistException{
