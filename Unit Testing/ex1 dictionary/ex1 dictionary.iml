@@ -8,6 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="module" module-name="ex3 Receipt" />
     <orderEntry type="module" module-name="ex5 Reciept Searchable" />
   </component>
 </module>

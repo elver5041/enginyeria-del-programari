@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
-    private final ProductsDB productsDB = new ProductsDB();
+    final ProductsDB productsDB = new ProductsDB();
     List<Line> receipt = new ArrayList<>();
     Boolean isReceiptClosed = false;
     BigDecimal taxes = BigDecimal.ZERO;
@@ -22,7 +22,7 @@ public class Receipt {
         if(isReceiptClosed)
             throw new IsClosedException("receipt already closed");
         BigDecimal total = getTotal();
-        taxes = total.add(total.multiply(percent));
+        taxes = total.multiply(percent);
         isReceiptClosed = true;
     }
 
