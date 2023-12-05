@@ -1,31 +1,22 @@
-import exceptions.IsClosedException;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Receipt {
-    List<Line> receipt = new ArrayList<>();
-    Boolean isReceiptClosed = false;
-    BigDecimal taxes = BigDecimal.ZERO;
-
+    BigDecimal total = BigDecimal.ZERO;
+    Boolean isRecieptClosed = false;
+    List receipt = new ArrayList<>();
     public void addLine(BigDecimal pricePerUnit, int numUnits) throws IsClosedException {
-        if(isReceiptClosed) throw new IsClosedException("receipt already closed");
-        receipt.add(new Line(pricePerUnit,numUnits));
+        if(isRecieptClosed) throw new IsClosedException("Reciept Closed");
+        total=total.add(pricePerUnit.multiply(BigDecimal.valueOf(numUnits)));
+        receipt.add(new Pair(pricePerUnit, numUnits));
     }
-
     public void addTaxes(BigDecimal percent) throws IsClosedException {
-        if(isReceiptClosed) throw new IsClosedException("receipt already closed");
-        taxes = getTotal().multiply(percent);
-        isReceiptClosed = true;
+        if(isRecieptClosed) throw new IsClosedException("Reciept Closed");
+        total = total.add(total.multiply(percent));
+        isRecieptClosed = true;
     }
-
     public BigDecimal getTotal() {
-        BigDecimal total = BigDecimal.ZERO;
-        for(Line line : receipt){
-            total.add(line.totalCost());
-        }
-        total.add(taxes);
         return total;
     }
 }
+
