@@ -5,14 +5,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReceiptImpl {
+public class Receipt {
     private final ProductsDB productsDB = new ProductsDB();
     List<Line> receipt = new ArrayList<>();
     Boolean isReceiptClosed = false;
     BigDecimal taxes = BigDecimal.ZERO;
 
-    public void addLine(BigDecimal pricePerUnit, int numUnits) throws IsClosedException {
+    public void addLine(String productId, int numUnits) throws IsClosedException, DoesNotExistException {
         if(isReceiptClosed) throw new IsClosedException("receipt already closed");
+        BigDecimal pricePerUnit = productsDB.getPrice(productId);
         receipt.add(new Line(pricePerUnit,numUnits));
     }
 
@@ -25,9 +26,8 @@ public class ReceiptImpl {
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for(Line line : receipt){
-            total.add(line.totalCost());
+            total = total.add(line.getTotal());
         }
-        total.add(taxes);
-        return total;
+        return total.add(taxes);
     }
 }
