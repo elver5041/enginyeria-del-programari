@@ -5,11 +5,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Receipt {
-    final ProductsDB productsDB = new ProductsDB();
+public class Receipt implements ReceiptImpl{
+    private final ProductsDB productsDB;
     List<Line> receipt = new ArrayList<>();
     Boolean isReceiptClosed = false;
     BigDecimal taxes = BigDecimal.ZERO;
+
+    public Receipt(ProductsDB DB){
+        productsDB = DB;
+    }
 
     public void addLine(String productId, int numUnits) throws IsClosedException, DoesNotExistException {
         if(isReceiptClosed)
