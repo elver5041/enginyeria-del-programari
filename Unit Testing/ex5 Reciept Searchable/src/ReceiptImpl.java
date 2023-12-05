@@ -2,19 +2,32 @@ import exceptions.DoesNotExistException;
 import exceptions.IsClosedException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ReceiptImpl implements Receipt{
+public class ReceiptImpl {
     private final ProductsDB productsDB = new ProductsDB();
-    @Override
-    public void addLine(String productID, int numUnits) throws IsClosedException, DoesNotExistException {
+    List<Line> receipt = new ArrayList<>();
+    Boolean isReceiptClosed = false;
+    BigDecimal taxes = BigDecimal.ZERO;
+
+    public void addLine(BigDecimal pricePerUnit, int numUnits) throws IsClosedException {
+        if(isReceiptClosed) throw new IsClosedException("receipt already closed");
+        receipt.add(new Line(pricePerUnit,numUnits));
     }
 
-    @Override
     public void addTaxes(BigDecimal percent) throws IsClosedException {
+        if(isReceiptClosed) throw new IsClosedException("receipt already closed");
+        taxes = getTotal().multiply(percent);
+        isReceiptClosed = true;
     }
 
-    @Override
     public BigDecimal getTotal() {
-        return null;
+        BigDecimal total = BigDecimal.ZERO;
+        for(Line line : receipt){
+            total.add(line.totalCost());
+        }
+        total.add(taxes);
+        return total;
     }
 }
