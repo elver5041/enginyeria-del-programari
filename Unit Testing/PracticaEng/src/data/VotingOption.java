@@ -1,5 +1,7 @@
 package data;
 
+import java.util.Objects;
+
 final public class VotingOption {
     private final String party;
     public VotingOption (String option) {
@@ -14,7 +16,7 @@ final public class VotingOption {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VotingOption vO = (VotingOption) o;
-        return party.equals(vO.party);
+        return Objects.equals(party, vO.party);
     }
 
     @Override
