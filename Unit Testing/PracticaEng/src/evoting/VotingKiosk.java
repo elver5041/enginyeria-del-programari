@@ -23,6 +23,7 @@ public class VotingKiosk {
     public void vote () {throw new ExecutionControl.NotImplementedException("");}
 
     public void confirmVotingOption (char conf) throws ConnectException {throw new ExecutionControl.NotImplementedException("");}
+    
     // Internal operation, not required
     private void finalizeSession () {throw new ExecutionControl.NotImplementedException("");}
     // TODO Setter methods for injecting dependences and additional methods
