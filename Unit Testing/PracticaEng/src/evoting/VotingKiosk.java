@@ -6,26 +6,82 @@ import data.VotingOption;
 import evoting.biometricdataperipheral.BiometricData;
 import exceptions.*;
 import jdk.jshell.spi.ExecutionControl;
+import services.ElectoralOrganism;
+import services.LocalService;
+import services.Scrutiny;
 
 import java.net.ConnectException;
 
 public class VotingKiosk {
     //TODO The class members
+    private Nif nif;
+    private VotingOption votingOption;
+    private Scrutiny scrutiny;
+    private LocalService localService;
+    private ElectoralOrganism electoralOrganism;
     // The constructor/s
+    public VotingKiosk(){}
     // Input events
-    public void initVoting () {throw new ExecutionControl.NotImplementedException("");}
-    public void setDocument (char opt) {throw new ExecutionControl.NotImplementedException("");}
-    public void enterAccount (String login, Password pssw) throws InvalidAccountException {throw new ExecutionControl.NotImplementedException("");}
-    public void confirmIdentif (char conf) throws InvalidDNIDocumException {throw new ExecutionControl.NotImplementedException("");}
-    public void enterNif (Nif nif) throws NotEnabledException, ConnectException {throw new ExecutionControl.NotImplementedException("");}
-    public void initOptionsNavigation () {throw new ExecutionControl.NotImplementedException("");}
-    public void consultVotingOption (VotingOption vopt) {throw new ExecutionControl.NotImplementedException("");}
-    public void vote () {throw new ExecutionControl.NotImplementedException("");}
+    private void setScrutiny(Scrutiny scrot){
+        scrutiny = scrot;
+    }
+    private void setLocalService(LocalService loco){
+        localService = loco;
+    }
+    private void setElectoralOrganism(ElectoralOrganism erect){
+        electoralOrganism = erect;
+    }
+    public void initVoting () {
+        //TODO
+    }
+    public void setDocument (char opt) {
+        //TODO
+        if (opt == 'd') {
 
-    public void confirmVotingOption (char conf) throws ConnectException {throw new ExecutionControl.NotImplementedException("");}
-    
+        } else if (opt == 'p') {
+
+        } else {
+
+        }
+    }
+    public void enterAccount (String login, Password pssw) throws InvalidAccountException {
+        localService.verifyAccount(login, pssw);
+    }
+    public void confirmIdentif (char conf) throws InvalidDNIDocumException {
+        if (conf == 'n') {
+            throw new InvalidDNIDocumException("bad identification");
+        } else if (conf == 'y' || conf == 's') {
+            //TODO
+        }
+    }
+    public void enterNif (Nif nif) throws NotEnabledException, ConnectException {
+        electoralOrganism.canVote(nif);
+        this.nif = nif;
+    }
+    public void initOptionsNavigation () {
+        //TODO: "full interficie"
+    }
+    public void consultVotingOption (VotingOption vopt) {
+        votingOption = vopt;
+        //TODO: "mostrar opcio"
+    }
+    public void vote () {
+        //TODO:what
+    }
+
+    public void confirmVotingOption (char conf) throws ConnectException {
+        if (conf == 'y' || conf == 's') {
+            scrutiny.scrutinize(votingOption);
+            electoralOrganism.disableVoter(nif);
+        }
+        //TODO: done?
+    }
+
     // Internal operation, not required
-    private void finalizeSession () {throw new ExecutionControl.NotImplementedException("");}
+    private void finalizeSession () {
+        nif = null;
+        votingOption = null;
+    }
     // TODO Setter methods for injecting dependences and additional methods
 
 
