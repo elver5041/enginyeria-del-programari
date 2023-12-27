@@ -14,13 +14,16 @@ import java.net.ConnectException;
 
 public class VotingKiosk {
     //TODO The class members
+    private boolean voting;
     private Nif nif;
     private VotingOption votingOption;
     private Scrutiny scrutiny;
     private LocalService localService;
     private ElectoralOrganism electoralOrganism;
     // The constructor/s
-    public VotingKiosk(){}
+    public VotingKiosk(){
+        voting = false;
+    }
     // Input events
     private void setScrutiny(Scrutiny scrot){
         scrutiny = scrot;
@@ -32,6 +35,7 @@ public class VotingKiosk {
         electoralOrganism = erect;
     }
     public void initVoting () {
+        voting = true;
         //TODO
     }
     public void setDocument (char opt) {
@@ -65,7 +69,12 @@ public class VotingKiosk {
         votingOption = vopt;
         //TODO: "mostrar opcio"
     }
-    public void vote () {
+    public void vote () throws ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
+        if(votingOption == null)
+            throw new ProceduralException("cap opcio seleccionada");
+        
         //TODO:what
     }
 
@@ -81,6 +90,7 @@ public class VotingKiosk {
     private void finalizeSession () {
         nif = null;
         votingOption = null;
+        voting = false;
     }
     // TODO Setter methods for injecting dependences and additional methods
 

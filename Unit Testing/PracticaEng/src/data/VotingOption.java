@@ -24,6 +24,10 @@ final public class VotingOption {
 
     @Override
     public String toString () {
+        if (party == null)
+            return "Vote option {" + "party='null" + '\'' + '}';
+        if (party.equals(""))
+            return "Vote option {" + "party='empty" + '\'' + '}';
         return "Vote option {" + "party='" + party + '\'' + '}';
     }
 }
