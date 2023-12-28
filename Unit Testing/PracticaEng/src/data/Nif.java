@@ -5,13 +5,14 @@ import exceptions.NotValidNifException;
 final public class Nif{
     private static final char[] lookup = {'T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'};
     private final String nif;
-    public Nif (String option) throws NotValidNifException {
-        if (option==null)
+
+    public Nif (String nif) throws NotValidNifException {
+        if (nif==null)
             throw new NullPointerException("nif null");
-        if (option.length()!=9)
+        if (nif.length()!=9)
             throw new NotValidNifException("no te suficients caràcters");
-        String str = option.substring(0,8);
-        char lletra = option.charAt(8);
+        String str = nif.substring(0,8);
+        char lletra = nif.charAt(8);
         int num;
         try {
             num = Integer.parseInt(str);
@@ -20,7 +21,7 @@ final public class Nif{
         }
         if (lookup[num%23]!=Character.toUpperCase(lletra))
             throw new NotValidNifException("nif invalid");
-        this.nif = option;
+        this.nif = nif;
     }
     public String getNif () {
         return nif;
@@ -30,8 +31,8 @@ final public class Nif{
     public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Nif vO = (Nif) o;
-        return nif.equals(vO.nif);
+        Nif nIF = (Nif) o;
+        return nif.equals(nIF.nif);
     }
 
     @Override

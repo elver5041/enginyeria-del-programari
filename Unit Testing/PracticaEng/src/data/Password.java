@@ -2,8 +2,8 @@ package data;
 
 final public class Password{
     private final String pass;
-    public Password (String option) {
-        this.pass = option;
+    public Password (String pass) {
+        this.pass = pass;
     }
     public String getPassword () {
         return pass;
@@ -13,8 +13,8 @@ final public class Password{
     public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Password vO = (Password) o;
-        return pass.equals(vO.pass);
+        Password pASS = (Password) o;
+        return pass.equals(pASS.pass);
     }
 
     @Override
