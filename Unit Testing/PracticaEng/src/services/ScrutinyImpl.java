@@ -13,7 +13,9 @@ public class ScrutinyImpl implements Scrutiny{
         if(DB==null) throw new NullPointerException("db in scrutiny is null");
         this.DB = DB;
     }
-
+    public boolean isInPool(VotingOption vO){
+        return DB.containsKey(vO);
+    }
     @Override
     public void initVoteCount(List<VotingOption> validParties) {
         for (VotingOption option : validParties) {

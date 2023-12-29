@@ -12,4 +12,5 @@ public interface Scrutiny {
     int getNulls ();
     int getBlanks ();
     void getScrutinyResults ();
+    boolean isInPool (VotingOption vopt);
 }

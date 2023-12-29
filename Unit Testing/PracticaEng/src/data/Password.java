@@ -1,12 +1,16 @@
 package data;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
 final public class Password{
-    private final String pass;
+    private byte[] pass;
     public Password (String pass) {
-        this.pass = pass;
-    }
-    public String getPassword () {
-        return pass;
+        try {
+            this.pass = MessageDigest.getInstance("SHA-256").digest(pass.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e) {e.printStackTrace();}
     }
 
     @Override
@@ -14,14 +18,14 @@ final public class Password{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Password pASS = (Password) o;
-        return pass.equals(pASS.pass);
+        return Arrays.equals(pass, pASS.pass);
     }
 
     @Override
-    public int hashCode () { return pass.hashCode(); }
+    public int hashCode () { return Arrays.hashCode(pass); }
 
     @Override
     public String toString () {
-        return "Password {" + "pass='" + pass + '\'' + '}';
+        return "Password {" + "pass='" + Arrays.toString(pass) + '\'' + '}';
     }
 }

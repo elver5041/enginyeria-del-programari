@@ -9,13 +9,11 @@ import evoting.biometricdataperipheral.HumanBiometricScanner;
 import evoting.biometricdataperipheral.PassportBiometricScanner;
 import evoting.biometricdataperipheral.SingleBiometricData;
 import exceptions.*;
-import jdk.jshell.spi.ExecutionControl;
 import services.ElectoralOrganism;
 import services.LocalService;
 import services.Scrutiny;
 
 import java.net.ConnectException;
-import java.util.HashMap;
 
 public class VotingKiosk {
     //TODO The class members
@@ -81,6 +79,8 @@ public class VotingKiosk {
             throw new ProceduralException("sessio de vot no iniciada");
         if(votingOption == null)
             throw new ProceduralException("cap opcio seleccionada");
+        if(!scrutiny.isInPool(votingOption))
+            throw new ProceduralException("i aquest partit ("+votingOption+"), d'on ha sortit?");
         votingOption = vopt;
         System.out.println("mostrant: "+vopt.getParty());
     }
