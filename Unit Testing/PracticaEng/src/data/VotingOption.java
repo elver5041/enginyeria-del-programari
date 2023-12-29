@@ -20,7 +20,9 @@ final public class VotingOption {
     }
 
     @Override
-    public int hashCode () { return party.hashCode(); }
+    public int hashCode () {
+        if(party==null) return 345678;
+        return party.hashCode(); }
 
     @Override
     public String toString () {

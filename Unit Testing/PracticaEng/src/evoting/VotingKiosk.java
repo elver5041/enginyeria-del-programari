@@ -155,7 +155,11 @@ public class VotingKiosk {
     }
 
     //auto verification
-    private void verifyBiometricData(BiometricData humanBD, BiometricData passpBD) throws BiometricVerificationFailedException {
+    private void verifyBiometricData(BiometricData humanBD, BiometricData passpBD) throws BiometricVerificationFailedException, ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
+        if(doctype!='p')
+            throw new ProceduralException("passport no triat");
         if(!humanBD.equals(passpBD))
             throw new BiometricVerificationFailedException("dades no coincideixen");
         System.out.println("perfecte! ara a votar");
@@ -166,24 +170,40 @@ public class VotingKiosk {
     }
 
     public void grantExplicitConsent (char cons) throws ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
+        if(doctype!='p')
+            throw new ProceduralException("passport no triat");
         if (cons == 'n') {
             throw new ProceduralException("pos no votes");
         } else if (cons == 'y' || cons == 's') {
             System.out.println("introdueix passaport");
         }
     }
-    public void readPassport() throws NotValidPassportException, PassportBiometricReadingException {
+    public void readPassport() throws NotValidPassportException, PassportBiometricReadingException, ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
+        if(doctype!='p')
+            throw new ProceduralException("passport no triat");
         passportBiometricScanner.validatePassport();
         passport = new Passport(
                 passportBiometricScanner.getNifWithOCR(),
                 passportBiometricScanner.getPassportBiometricData());
         System.out.println("lectura del passaport correcta, llegirem la cara ara");
     }
-    public void readFaceBiometrics() throws HumanBiometricScanningException {
+    public void readFaceBiometrics() throws HumanBiometricScanningException, ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
+        if(doctype!='p')
+            throw new ProceduralException("passport no triat");
         tempBio = humanBiometricScanner.scanFaceBiometrics();
         System.out.println("lectura de la cara correcta, llegirem el dit ara");
     }
-    public void readFingerprintBiometrics() throws NotEnabledException, HumanBiometricScanningException {
+    public void readFingerprintBiometrics() throws NotEnabledException, HumanBiometricScanningException, ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
+        if(doctype!='p')
+            throw new ProceduralException("passport no triat");
         if (!isFingerScannerEnabled)
             throw new NotEnabledException("fingerprint reader not enabled");
         bioData = new BiometricData(tempBio, humanBiometricScanner.scanFingerprintBiometrics());
