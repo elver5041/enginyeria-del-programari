@@ -99,18 +99,16 @@ public class kioskErrorsDNI {
         assertThrows(NotValidNifException.class, () -> votVell.enterNif(new Nif("39955429L")));
     }
     @Test
-    public void notValidVotingOption() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
+    public void noVotingOption() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
         votVell.initVoting();
         votVell.setDocument('d');
         votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
         votVell.confirmIdentif('y');
         votVell.enterNif(new Nif("39955425D"));
         votVell.initOptionsNavigation();
-        assertThrows(ProceduralException.class, () -> votVell.consultVotingOption(new VotingOption(null)));
+        assertThrows(ProceduralException.class, () -> votVell.consultVotingOption(null));
     }
 
-
     
-
 
 }
