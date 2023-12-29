@@ -109,6 +109,45 @@ public class kioskErrorsDNI {
         assertThrows(ProceduralException.class, () -> votVell.consultVotingOption(null));
     }
 
-    
+    @Test
+    public void nonExistentVotingOption() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
+        votVell.initVoting();
+        votVell.setDocument('d');
+        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
+        votVell.confirmIdentif('y');
+        votVell.enterNif(new Nif("39955425D"));
+        votVell.initOptionsNavigation();
+        assertThrows(ProceduralException.class, () -> votVell.consultVotingOption(new VotingOption("macarronsdelamama")));
+    }
+
+    @Test
+    public void votingWithoutConsulting() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
+        votVell.initVoting();
+        votVell.setDocument('d');
+        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
+        votVell.confirmIdentif('y');
+        votVell.enterNif(new Nif("39955425D"));
+        votVell.initOptionsNavigation();
+        assertThrows(ProceduralException.class, () -> votVell.vote());
+    }
+
+    @Test
+    public void confirmWithoutVote() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
+        votVell.initVoting();
+        votVell.setDocument('d');
+        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
+        votVell.confirmIdentif('y');
+        votVell.enterNif(new Nif("39955425D"));
+        votVell.initOptionsNavigation();
+        votVell.consultVotingOption(new VotingOption("VOX"));
+        assertThrows(ProceduralException.class, () -> votVell.confirmVotingOption('y'));
+    }
+
+    @Test
+    public void tryPassportOp() throws ProceduralException {
+        votVell.initVoting();
+        votVell.setDocument('d');
+        assertThrows(ProceduralException.class, () -> votVell.grantExplicitConsent('y'));
+    }
 
 }

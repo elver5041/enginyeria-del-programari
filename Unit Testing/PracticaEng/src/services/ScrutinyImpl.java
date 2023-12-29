@@ -57,12 +57,12 @@ public class ScrutinyImpl implements Scrutiny{
     public void getScrutinyResults() {
         StringBuilder str = new StringBuilder("Scrutiny Results {\n");
         for (Map.Entry<VotingOption,Integer> entry : DB.entrySet()){
-            if (entry.getKey()==null){
+            if (entry.getKey().equals(new VotingOption(null))){
                 str.append("\tnull = ").append(entry.getValue()).append("\n");
             } else if (entry.getKey().equals(new VotingOption(""))){
                 str.append("\tblanc = ").append(entry.getValue()).append("\n");
             } else {
-                str.append("\t").append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+                str.append("\t").append(entry.getKey().getParty()).append(" = ").append(entry.getValue()).append("\n");
             }
         }
         str.append("}");
