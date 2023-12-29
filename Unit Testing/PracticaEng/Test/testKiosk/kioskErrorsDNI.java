@@ -54,6 +54,12 @@ public class kioskErrorsDNI {
         scrut.initVoteCount(partits);
     }
 
+
+    @Test
+    public void OperateWithoutStart(){
+        assertThrows(ProceduralException.class, () -> votVell.setDocument('z'));
+    }
+
     @Test
     public void document0Sentit() {
         votVell.initVoting();
