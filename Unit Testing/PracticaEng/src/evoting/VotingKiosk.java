@@ -77,10 +77,10 @@ public class VotingKiosk {
     public void consultVotingOption (VotingOption vopt) throws ProceduralException {
         if(!voting)
             throw new ProceduralException("sessio de vot no iniciada");
-        if(votingOption == null)
+        if(vopt == null)
             throw new ProceduralException("cap opcio seleccionada");
-        if(!scrutiny.isInPool(votingOption))
-            throw new ProceduralException("i aquest partit ("+votingOption+"), d'on ha sortit?");
+        if(!scrutiny.isInPool(vopt))
+            throw new ProceduralException("i aquest partit ("+vopt.getParty()+"), d'on ha sortit?");
         votingOption = vopt;
         System.out.println("mostrant: "+vopt.getParty());
     }
@@ -97,16 +97,17 @@ public class VotingKiosk {
     public void confirmVotingOption (char conf) throws ConnectException, ProceduralException {
         if(!voting)
             throw new ProceduralException("sessio de vot no iniciada");
-        if(votingOption == null)
+        if(vO == null)
             throw new ProceduralException("cap opcio seleccionada");
 
         if (conf == 'y' || conf == 's') {
             electoralOrganism.disableVoter(nif);
             scrutiny.scrutinize(vO);
             System.out.println("votat correctament");
+            finalizeSession();
         } else if(conf == 'n'){
             vO = null;
-            System.out.println("trii un altre cop :(");
+            System.out.println("retornant al menú de navegació");
         }
     }
 
@@ -116,7 +117,7 @@ public class VotingKiosk {
         votingOption = null;
         vO = null;
         voting = false;
-        System.out.println("torni un altre cop");
+        System.out.println("Bon dia tingui");
     }
 
     public void setScrutiny(Scrutiny scrot){
