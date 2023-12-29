@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class kioskCorrect {
+public class KioskCorrectTest {
 
     public static VotingKiosk votVell;
     public static ScrutinyImpl scrut;
@@ -31,9 +31,9 @@ public class kioskCorrect {
     public void reset() throws NotValidNifException {
         HashMap<Nif, Boolean> votants = new HashMap<>();
         votants.put(new Nif("39955425D"), true); //pels testos incorrectes -> treure això
-        organism = new ElectoralOrganismImpl(votants, 473473737l);
-        HBI = new HumanBiometricImpl(473473737l);
-        PBI = new PassportBiometricImpl(473473737l);
+        organism = new ElectoralOrganismImpl(votants, 473473737L);
+        HBI = new HumanBiometricImpl(473473737L);
+        PBI = new PassportBiometricImpl(473473737L);
         votVell = new VotingKiosk();
         votVell.setScrutiny(scrut);
         votVell.setLocalService(serverLoc);
@@ -43,8 +43,8 @@ public class kioskCorrect {
     }
 
     @BeforeAll
-    public static void init() throws NotValidNifException {
-        scrut = new ScrutinyImpl(new HashMap<VotingOption, Integer>());
+    public static void init() {
+        scrut = new ScrutinyImpl(new HashMap<>());
         serverLoc = new LocalServiceImpl();
         serverLoc.addInfo("Manolo", new Password("socvisiblexd_"));
         List<VotingOption> partits = new ArrayList<>();
@@ -97,7 +97,7 @@ public class kioskCorrect {
         votVell.confirmVotingOption('y');
     }
     @Test
-    public void passaportE() throws ClassCastException, ProceduralException, ConnectException, PassportBiometricReadingException, NotValidPassportException, NotValidNifException, HumanBiometricScanningException, NotEnabledException {
+    public void passaportE() throws ClassCastException, ProceduralException, ConnectException, PassportBiometricReadingException, NotValidPassportException, NotValidNifException, HumanBiometricScanningException, NotEnabledException, BiometricVerificationFailedException {
         votVell.initVoting();
         votVell.setDocument('p');
         votVell.grantExplicitConsent('y');
@@ -108,8 +108,6 @@ public class kioskCorrect {
         votVell.enableFingerScanner();
         HBI.setReturnData(new byte[]{1});
         votVell.readFingerprintBiometrics();
-
-
         votVell.initOptionsNavigation();
         votVell.consultVotingOption(new VotingOption("PNOA"));
         votVell.vote();

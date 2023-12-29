@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class kioskErrorsDNI {
+public class KioskErrorsDNItest {
 
     public static VotingKiosk votVell;
     public static ScrutinyImpl scrut;
@@ -27,17 +27,17 @@ public class kioskErrorsDNI {
     public static ElectoralOrganismImpl organism;
 
     @BeforeEach
-    public void reset() throws NotValidNifException {
+    public void reset() {
         votVell = new VotingKiosk();
         votVell.setScrutiny(scrut);
         votVell.setLocalService(serverLoc);
         votVell.setElectoralOrganism(organism);
-        organism.setSeed(473473737l);
+        organism.setSeed(473473737L);
     }
 
     @BeforeAll
     public static void init() throws NotValidNifException {
-        scrut = new ScrutinyImpl(new HashMap<VotingOption, Integer>());
+        scrut = new ScrutinyImpl(new HashMap<>());
         serverLoc = new LocalServiceImpl();
         serverLoc.addInfo("Manolo", new Password("socvisiblexd_"));
         HashMap<Nif, Boolean> votants = new HashMap<>();
@@ -53,7 +53,6 @@ public class kioskErrorsDNI {
         partits.add(new VotingOption("FE"));
         scrut.initVoteCount(partits);
     }
-
 
     @Test
     public void OperateWithoutStart(){
@@ -76,7 +75,7 @@ public class kioskErrorsDNI {
 
     @Test
     public void ConnectionErr() throws ProceduralException, InvalidDNIDocumException {
-        organism.setSeed(18l);
+        organism.setSeed(18L);
         votVell.initVoting();
         votVell.setDocument('d');
         votVell.confirmIdentif('y');

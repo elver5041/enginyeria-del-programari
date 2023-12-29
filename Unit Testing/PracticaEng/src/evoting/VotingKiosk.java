@@ -36,6 +36,7 @@ public class VotingKiosk {
     public VotingKiosk(){
         voting = false;
         isFingerScannerEnabled = false;
+        verified = false;
     }
     // Input events
     public void initVoting () {
@@ -66,6 +67,7 @@ public class VotingKiosk {
             throw new InvalidDNIDocumException("bad identification");
         } else if (conf == 'y' || conf == 's') {
             System.out.println("introdueixi el nif");
+            verified = true;
         }
     }
     public void enterNif (Nif nif) throws NotEnabledException, ConnectException, ProceduralException {
@@ -73,6 +75,8 @@ public class VotingKiosk {
             throw new ProceduralException("sessio de vot no iniciada");
         if(doctype!='d')
             throw new ProceduralException("nif no triat");
+        if(!verified)
+            throw new ProceduralException("l'assistent ha de verificar el dni primer");
         electoralOrganism.canVote(nif);
         this.nif = nif;
         System.out.println("nif correcte");
@@ -115,7 +119,7 @@ public class VotingKiosk {
             finalizeSession();
         } else if(conf == 'n'){
             vO = null;
-            System.out.println("retornant al menú de navegació");
+            System.out.println("retornant al menu de navegacio");
         }
     }
 
@@ -125,6 +129,7 @@ public class VotingKiosk {
         votingOption = null;
         vO = null;
         voting = false;
+        verified = false;
         System.out.println("Bon dia tingui");
     }
 
@@ -149,19 +154,20 @@ public class VotingKiosk {
     public void disableFingerScanner(){
         isFingerScannerEnabled=false;
     }
-    private void recount(){
-        voting = false;
+    public void recount(){
         scrutiny.getScrutinyResults();
     }
 
     //auto verification
-    private void verifyBiometricData(BiometricData humanBD, BiometricData passpBD) throws BiometricVerificationFailedException, ProceduralException {
+    private void verifyBiometricData(BiometricData humanBD, BiometricData passpBD) throws BiometricVerificationFailedException, ProceduralException, NotEnabledException, ConnectException {
         if(!voting)
             throw new ProceduralException("sessio de vot no iniciada");
         if(doctype!='p')
             throw new ProceduralException("passport no triat");
         if(!humanBD.equals(passpBD))
             throw new BiometricVerificationFailedException("dades no coincideixen");
+        electoralOrganism.canVote(passport.getNif());
+        removeBiometricData();
         System.out.println("perfecte! ara a votar");
     }
     private void removeBiometricData(){
@@ -199,7 +205,7 @@ public class VotingKiosk {
         tempBio = humanBiometricScanner.scanFaceBiometrics();
         System.out.println("lectura de la cara correcta, llegirem el dit ara");
     }
-    public void readFingerprintBiometrics() throws NotEnabledException, HumanBiometricScanningException, ProceduralException {
+    public void readFingerprintBiometrics() throws NotEnabledException, HumanBiometricScanningException, ProceduralException, BiometricVerificationFailedException, ConnectException {
         if(!voting)
             throw new ProceduralException("sessio de vot no iniciada");
         if(doctype!='p')
@@ -209,6 +215,6 @@ public class VotingKiosk {
         bioData = new BiometricData(tempBio, humanBiometricScanner.scanFingerprintBiometrics());
         tempBio = null;
         System.out.println("lectura correcta, comprovant si les dades son correctes");
+        verifyBiometricData(bioData, passport.getBioData());
     }
 }
-
