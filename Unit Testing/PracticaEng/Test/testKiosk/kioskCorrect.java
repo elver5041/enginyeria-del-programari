@@ -35,7 +35,6 @@ public class kioskCorrect {
         votVell.setElectoralOrganism(organism);
     }
 
-
     @BeforeAll
     public static void init() throws NotValidNifException {
         scrut = new ScrutinyImpl(new HashMap<VotingOption, Integer>());
@@ -67,14 +66,12 @@ public class kioskCorrect {
     }
 
     @Test
-    public void passaportE() throws InvalidAccountException, NotValidNifException, NotEnabledException, ClassCastException, ProceduralException, ConnectException {
+    public void passaportE() throws InvalidAccountException, NotValidNifException, NotEnabledException, ClassCastException, ProceduralException, ConnectException, PassportBiometricReadingException, NotValidPassportException {
         votVell.initVoting();
         votVell.setDocument('p');
-
-
-
-
-
+        votVell.grantExplicitConsent('y');
+        votVell.readPassport();
+        //aquí falta
 
         votVell.initOptionsNavigation();
         votVell.consultVotingOption(new VotingOption("PNOA"));

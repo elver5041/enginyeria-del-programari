@@ -42,20 +42,26 @@ public class VotingKiosk {
         voting = true;
         System.out.println("menu de document");
     }
-    public void setDocument (char opt) {
+    public void setDocument (char opt) throws ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
         if (opt == 'd') {
             doctype = 'd';
             System.out.println("demani ajut de suport");
         } else if (opt == 'p') {
             doctype = 'p';
             System.out.println("consenteix a l'us de les dades biometriques?");
+        } else {
+            throw new ProceduralException("Opció no vàlida");
         }
     }
     public void enterAccount (String login, Password pssw) throws InvalidAccountException {
         localService.verifyAccount(login, pssw);
         System.out.println("admin autentificat correctament");
     }
-    public void confirmIdentif (char conf) throws InvalidDNIDocumException {
+    public void confirmIdentif (char conf) throws InvalidDNIDocumException, ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
         if (conf == 'n') {
             throw new InvalidDNIDocumException("bad identification");
         } else if (conf == 'y' || conf == 's') {
@@ -71,7 +77,9 @@ public class VotingKiosk {
         this.nif = nif;
         System.out.println("nif correcte");
     }
-    public void initOptionsNavigation () {
+    public void initOptionsNavigation () throws ProceduralException {
+        if(!voting)
+            throw new ProceduralException("sessio de vot no iniciada");
         System.out.println("navegant");
     }
     public void consultVotingOption (VotingOption vopt) throws ProceduralException {

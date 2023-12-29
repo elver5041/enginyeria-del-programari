@@ -21,7 +21,7 @@ public class ElectoralOrganismImpl implements ElectoralOrganism{
         DB = dnis;
         randGen = new Random(seed);
     }
-    void setSeed(long seed){
+    public void setSeed(long seed){
         randGen.setSeed(seed);
     }
     @Override

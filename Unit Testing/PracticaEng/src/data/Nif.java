@@ -10,7 +10,7 @@ final public class Nif{
         if (nif==null)
             throw new NullPointerException("nif null");
         if (nif.length()!=9)
-            throw new NotValidNifException("no te suficients caràcters");
+            throw new NotValidNifException("llargada incorrecta");
         String str = nif.substring(0,8);
         char lletra = nif.charAt(8);
         int num;
