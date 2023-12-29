@@ -2,12 +2,11 @@ package testData;
 
 import data.Nif;
 import exceptions.NotValidNifException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testNif {
+public class testNifCreation {
     @Test
     void nifNull() {
         Exception exception = assertThrows(NullPointerException.class, () -> {
