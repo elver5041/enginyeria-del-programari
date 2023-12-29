@@ -22,7 +22,7 @@ public class ScrutinyImpl implements Scrutiny{
             DB.put(option, 0);
         }
         DB.put(new VotingOption(""), 0);
-        DB.put(null, 0);
+        DB.put(new VotingOption(null), 0);
     }
 
     @Override
