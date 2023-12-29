@@ -13,7 +13,7 @@ public class LocalServiceImpl implements LocalService{
     public LocalServiceImpl(HashMap<String,Password> logins){
         this.logins = logins;
     }
-    private void addInfo(String login, Password pass){
+    public void addInfo(String login, Password pass){
         logins.put(login,pass);
     }
     @Override

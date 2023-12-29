@@ -119,25 +119,25 @@ public class VotingKiosk {
         System.out.println("torni un altre cop");
     }
 
-    private void setScrutiny(Scrutiny scrot){
+    public void setScrutiny(Scrutiny scrot){
         scrutiny = scrot;
     }
-    private void setLocalService(LocalService loco){
+    public void setLocalService(LocalService loco){
         localService = loco;
     }
-    private void setElectoralOrganism(ElectoralOrganism erect){
+    public void setElectoralOrganism(ElectoralOrganism erect){
         electoralOrganism = erect;
     }
-    private void setPassportBiometricScanner(PassportBiometricScanner pbs){
+    public void setPassportBiometricScanner(PassportBiometricScanner pbs){
         passportBiometricScanner = pbs;
     }
-    private void setHumanBiometricScanner(HumanBiometricScanner hbs){
+    public void setHumanBiometricScanner(HumanBiometricScanner hbs){
         humanBiometricScanner = hbs;
     }
-    private void enableFingerScanner(){
+    public void enableFingerScanner(){
         isFingerScannerEnabled=true;
     }
-    private void disableFingerScanner(){
+    public void disableFingerScanner(){
         isFingerScannerEnabled=false;
     }
     private void recount(){
