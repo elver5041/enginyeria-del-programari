@@ -9,7 +9,7 @@ final public class Password{
     private byte[] pass;
     public Password (String pass) {
         try {
-            this.pass = MessageDigest.getInstance("SHA-256").digest(pass.getBytes(StandardCharsets.UTF_8));
+            this.pass = MessageDigest.getInstance("SHA-256").digest(("evot"+pass+"z").getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {e.printStackTrace();}
     }
 

@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Unit Testing/Problema2S/Problema2S.iml" filepath="$PROJECT_DIR$/Unit Testing/Problema2S/Problema2S.iml" />
       <module fileurl="file://$PROJECT_DIR$/Unit Testing/PracticaEng/src/data/data.iml" filepath="$PROJECT_DIR$/Unit Testing/PracticaEng/src/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/enginyeria-del-programari.iml" filepath="$PROJECT_DIR$/.idea/enginyeria-del-programari.iml" />
       <module fileurl="file://$PROJECT_DIR$/Unit Testing/ex1 dictionary/ex1 dictionary.iml" filepath="$PROJECT_DIR$/Unit Testing/ex1 dictionary/ex1 dictionary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Unit Testing/ex2 merger/ex2 merger.iml" filepath="$PROJECT_DIR$/Unit Testing/ex2 merger/ex2 merger.iml" />
       <module fileurl="file://$PROJECT_DIR$/Unit Testing/ex3 Receipt/ex3 Receipt.iml" filepath="$PROJECT_DIR$/Unit Testing/ex3 Receipt/ex3 Receipt.iml" />
       <module fileurl="file://$PROJECT_DIR$/Unit Testing/ex5 Reciept Searchable/ex5 Reciept Searchable.iml" filepath="$PROJECT_DIR$/Unit Testing/ex5 Reciept Searchable/ex5 Reciept Searchable.iml" />
     </modules>
