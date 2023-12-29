@@ -16,7 +16,7 @@ public class HumanBiometricImpl implements HumanBiometricScanner{
     public void setReturnData(byte[] data){
         this.data = data;
     }
-    
+
     @Override
     public SingleBiometricData scanFaceBiometrics() throws HumanBiometricScanningException {
         if(rngGen.nextInt(100)==0) throw new HumanBiometricScanningException("xd error 1%");

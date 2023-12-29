@@ -7,8 +7,8 @@ import java.net.ConnectException;
 import java.util.*;
 
 public class ElectoralOrganismImpl implements ElectoralOrganism{
-    private Random randGen;
-    private Map<Nif,Boolean> DB;
+    private final Random randGen;
+    private final Map<Nif,Boolean> DB;
     public ElectoralOrganismImpl(){
         DB = new HashMap<>();
         randGen = new Random();
