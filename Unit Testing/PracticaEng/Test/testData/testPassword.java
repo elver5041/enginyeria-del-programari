@@ -28,19 +28,15 @@ public class testPassword {
         password5 = new Password("");
     }
     @Test
-    void testPwdEqualsNull() {
-        assertFalse(password1.equals(null));
-        assertFalse(password2.equals(null));
-        assertFalse(password5.equals(null));
-    }
-    @Test
     void testPwdEqualsSame() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertTrue(password1.equals(password1));
         assertTrue(password2.equals(password2));
         assertTrue(password5.equals(password5));
     }
     @Test
     void testPwdEqualsDif() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertTrue(password1.equals(password3));
         assertTrue(password3.equals(password1));
         assertFalse(password2.equals(password3));

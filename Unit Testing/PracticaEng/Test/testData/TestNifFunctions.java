@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testNifFunctions {
+public class TestNifFunctions {
     Nif nif1;
     Nif nif2;
     Nif nif3;
@@ -20,20 +20,24 @@ public class testNifFunctions {
     }
     @Test
     void testEqualsSame() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertTrue(nif1.equals(nif1));
         assertTrue(nif2.equals(nif2));
     }
     @Test
     void testEqualsNull() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertFalse(nif1.equals(null));
         assertFalse(nif2.equals(null));
     }
     @Test
     void testEquals() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertTrue(nif1.equals(nif3));
     }
     @Test
     void testNotEquals() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertFalse(nif1.equals(nif2));
         assertFalse(nif2.equals(nif3));
     }

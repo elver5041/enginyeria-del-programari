@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testVotingOption {
+public class TestVotingOption {
     VotingOption votingOption1;
     VotingOption votingOption2;
     VotingOption votingOption3;
@@ -26,10 +26,11 @@ public class testVotingOption {
         assertEquals("Op1", votingOption1.getParty());
         assertNotEquals("Op3", votingOption3.getParty());
         assertEquals("", votingOption4.getParty());
-        assertEquals(null, votingOption5.getParty());
+        assertNull(votingOption5.getParty());
     }
     @Test
     void testEquals() {
+        //warnings due to java wanting to simplify, this equals is a function inside the class tested
         assertTrue(votingOption1.equals(votingOption1));
         assertTrue(votingOption1.equals(votingOption3));
         assertFalse(votingOption1.equals(votingOption2));
