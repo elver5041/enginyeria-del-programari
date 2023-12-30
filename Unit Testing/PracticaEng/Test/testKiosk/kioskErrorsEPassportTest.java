@@ -1,10 +1,13 @@
 package testKiosk;
 import data.Nif;
+import data.Passport;
 import data.Password;
 import data.VotingOption;
 import evoting.VotingKiosk;
+import evoting.biometricdataperipheral.BiometricData;
 import evoting.biometricdataperipheral.HumanBiometricImpl;
 import evoting.biometricdataperipheral.PassportBiometricImpl;
+import evoting.biometricdataperipheral.SingleBiometricData;
 import exceptions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +41,10 @@ public class kioskErrorsEPassportTest {
         votants.put(new Nif("39955425D"), true);
         organism = new ElectoralOrganismImpl(votants, 473473737L);
         votVell.setElectoralOrganism(organism);
+        HBI = new HumanBiometricImpl(473473737L);
+        PBI = new PassportBiometricImpl(473473737L);
+        votVell.setHumanBiometricScanner(HBI);
+        votVell.setPassportBiometricScanner(PBI);
     }
 
     @BeforeAll
@@ -55,98 +62,72 @@ public class kioskErrorsEPassportTest {
     }
 
     @Test
-    public void OperateWithoutStart(){
-        assertThrows(ProceduralException.class, () -> votVell.setDocument('z'));
+    public void TryNifOperation () throws ProceduralException {
+        votVell.initVoting();
+        votVell.setDocument('p');
+        assertThrows(ProceduralException.class, ()-> votVell.enterNif(new Nif("39955425D")));
     }
 
     @Test
-    public void document0Sentit() {
+    public void ErrorValidatingPassport() throws ProceduralException, NotValidNifException {
         votVell.initVoting();
-        assertThrows(ProceduralException.class, () -> votVell.setDocument('z'));
+        votVell.setDocument('p');
+        votVell.grantExplicitConsent('y');
+        PBI.setSeed(18L);
+        PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
+        assertThrows(NotValidPassportException.class, () -> votVell.readPassport());
     }
 
     @Test
-    public void accountNotExistent() throws ProceduralException {
+    public void ErrorLectureFaceHBiometrics() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException {
         votVell.initVoting();
-        votVell.setDocument('d');
-        assertThrows(InvalidAccountException.class, () -> votVell.enterAccount("Manolo", new Password("contrassenya")));
-        assertThrows(InvalidAccountException.class, () -> votVell.enterAccount("SeñorBolainas", new Password("socvisiblexd_")));
+        votVell.setDocument('p');
+        votVell.grantExplicitConsent('y');
+        PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
+        votVell.readPassport();
+        HBI.setReturnData(new byte[]{0});
+        HBI.setSeed(18L);
+        assertThrows(HumanBiometricScanningException.class, () -> votVell.readFaceBiometrics());
     }
 
     @Test
-    public void ConnectionErr() throws ProceduralException, InvalidDNIDocumException {
-        organism.setSeed(18L);
+    public void ErrorLectureFingerHBiometrics() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException, BiometricVerificationFailedException, HumanBiometricScanningException, NotEnabledException, ConnectException {
         votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.confirmIdentif('y');
-        assertThrows(ConnectException.class, () -> votVell.enterNif(new Nif("39955425D")));
+        votVell.setDocument('p');
+        votVell.grantExplicitConsent('y');
+        PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
+        votVell.readPassport();
+        HBI.setReturnData(new byte[]{0});
+        votVell.readFaceBiometrics();
+        votVell.enableFingerScanner();
+        HBI.setReturnData(new byte[]{1});
+        HBI.setSeed(18L);
+        assertThrows(HumanBiometricScanningException.class, () -> votVell.readFingerprintBiometrics());
     }
 
     @Test
-    public void notExistentDNI() throws ProceduralException, InvalidDNIDocumException {
+    public void FaceNotCoincident() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException {
         votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.confirmIdentif('y');
-        assertThrows(NotEnabledException.class, () -> votVell.enterNif(new Nif("39955429J")));
+        votVell.setDocument('p');
+        votVell.grantExplicitConsent('y');
+        PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
+        votVell.readPassport();
+        HBI.setReturnData(new byte[]{15});
+        assertThrows(BiometricVerificationFailedException.class, () -> votVell.readFaceBiometrics());
     }
 
     @Test
-    public void notValidDNI() throws ProceduralException, InvalidDNIDocumException {
+    public void FingerNotCoincident() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException, BiometricVerificationFailedException, HumanBiometricScanningException, NotEnabledException, ConnectException {
         votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.confirmIdentif('y');
-        assertThrows(NotValidNifException.class, () -> votVell.enterNif(new Nif("39955429L")));
-    }
-    @Test
-    public void noVotingOption() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
-        votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
-        votVell.confirmIdentif('y');
-        votVell.enterNif(new Nif("39955425D"));
-        votVell.initOptionsNavigation();
-        assertThrows(ProceduralException.class, () -> votVell.consultVotingOption(null));
-    }
-
-    @Test
-    public void nonExistentVotingOption() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
-        votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
-        votVell.confirmIdentif('y');
-        votVell.enterNif(new Nif("39955425D"));
-        votVell.initOptionsNavigation();
-        assertThrows(ProceduralException.class, () -> votVell.consultVotingOption(new VotingOption("macarronsdelamama")));
-    }
-
-    @Test
-    public void votingWithoutConsulting() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
-        votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
-        votVell.confirmIdentif('y');
-        votVell.enterNif(new Nif("39955425D"));
-        votVell.initOptionsNavigation();
-        assertThrows(ProceduralException.class, () -> votVell.vote());
-    }
-
-    @Test
-    public void confirmWithoutVote() throws ProceduralException, InvalidDNIDocumException, InvalidAccountException, NotValidNifException, NotEnabledException, ConnectException {
-        votVell.initVoting();
-        votVell.setDocument('d');
-        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
-        votVell.confirmIdentif('y');
-        votVell.enterNif(new Nif("39955425D"));
-        votVell.initOptionsNavigation();
-        votVell.consultVotingOption(new VotingOption("VOX"));
-        assertThrows(ProceduralException.class, () -> votVell.confirmVotingOption('y'));
-    }
-
-    @Test
-    public void tryPassportOp() throws ProceduralException {
-        votVell.initVoting();
-        votVell.setDocument('d');
-        assertThrows(ProceduralException.class, () -> votVell.grantExplicitConsent('y'));
+        votVell.setDocument('p');
+        votVell.grantExplicitConsent('y');
+        PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
+        votVell.readPassport();
+        HBI.setReturnData(new byte[]{0});
+        votVell.readFaceBiometrics();
+        votVell.enableFingerScanner();
+        HBI.setReturnData(new byte[]{100});
+        assertThrows(BiometricVerificationFailedException.class, () -> votVell.readFingerprintBiometrics());
     }
 
 }

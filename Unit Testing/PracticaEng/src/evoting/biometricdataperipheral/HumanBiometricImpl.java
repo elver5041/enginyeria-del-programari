@@ -13,6 +13,9 @@ public class HumanBiometricImpl implements HumanBiometricScanner{
     public HumanBiometricImpl(long seed){
         rngGen = new Random(seed);
     }
+    public void setSeed(long seed){
+        rngGen.setSeed(seed);
+    }
     public void setReturnData(byte[] data){
         this.data = data;
     }
