@@ -9,14 +9,6 @@ import java.util.*;
 public class ElectoralOrganismImpl implements ElectoralOrganism{
     private final Random randGen;
     private final Map<Nif,Boolean> DB;
-    public ElectoralOrganismImpl(){
-        DB = new HashMap<>();
-        randGen = new Random();
-    }
-    public ElectoralOrganismImpl(HashMap<Nif,Boolean> dnis){
-        DB = dnis;
-        randGen = new Random();
-    }
     public ElectoralOrganismImpl(HashMap<Nif,Boolean> dnis, long seed){
         DB = dnis;
         randGen = new Random(seed);

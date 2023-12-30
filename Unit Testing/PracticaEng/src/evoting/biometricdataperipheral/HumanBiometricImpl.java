@@ -7,9 +7,6 @@ import java.util.Random;
 public class HumanBiometricImpl implements HumanBiometricScanner{
     private byte[] data;
     private final Random rngGen;
-    public HumanBiometricImpl(){
-        rngGen = new Random();
-    }
     public HumanBiometricImpl(long seed){
         rngGen = new Random(seed);
     }
