@@ -215,7 +215,8 @@ public class VotingKiosk {
         tempBio = null;
         System.out.println("lectura correcta, comprovant si les dades son correctes");
         verifyBiometricData(bioData, passport.getBioData());
+        nif = passport.getNif();
         removeBiometricData();
-        electoralOrganism.canVote(passport.getNif());
+        electoralOrganism.canVote(nif);
     }
 }
