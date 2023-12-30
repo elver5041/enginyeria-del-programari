@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class KioskErrorsDNItest {
+public class kioskErrorsDNItest {
 
     public static VotingKiosk votVell;
     public static ScrutinyImpl scrut;

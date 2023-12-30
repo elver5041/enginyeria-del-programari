@@ -166,8 +166,6 @@ public class VotingKiosk {
             throw new ProceduralException("passport no triat");
         if(!humanBD.equals(passpBD))
             throw new BiometricVerificationFailedException("dades no coincideixen");
-        electoralOrganism.canVote(passport.getNif());
-        removeBiometricData();
         System.out.println("perfecte! ara a votar");
     }
     private void removeBiometricData(){
@@ -197,12 +195,13 @@ public class VotingKiosk {
                 passportBiometricScanner.getPassportBiometricData());
         System.out.println("lectura del passaport correcta, llegirem la cara ara");
     }
-    public void readFaceBiometrics() throws HumanBiometricScanningException, ProceduralException {
+    public void readFaceBiometrics() throws HumanBiometricScanningException, ProceduralException, BiometricVerificationFailedException, NotEnabledException, ConnectException {
         if(!voting)
             throw new ProceduralException("sessio de vot no iniciada");
         if(doctype!='p')
             throw new ProceduralException("passport no triat");
         tempBio = humanBiometricScanner.scanFaceBiometrics();
+        verifyBiometricData(new BiometricData(tempBio, new SingleBiometricData(new byte[]{1})), (new BiometricData(passport.getBioData().getFaceBiometric(), new SingleBiometricData(new byte[]{1}))));
         System.out.println("lectura de la cara correcta, llegirem el dit ara");
     }
     public void readFingerprintBiometrics() throws NotEnabledException, HumanBiometricScanningException, ProceduralException, BiometricVerificationFailedException, ConnectException {
@@ -216,5 +215,7 @@ public class VotingKiosk {
         tempBio = null;
         System.out.println("lectura correcta, comprovant si les dades son correctes");
         verifyBiometricData(bioData, passport.getBioData());
+        removeBiometricData();
+        electoralOrganism.canVote(passport.getNif());
     }
 }
