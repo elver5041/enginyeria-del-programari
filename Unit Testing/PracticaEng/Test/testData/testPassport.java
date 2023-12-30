@@ -68,7 +68,7 @@ public class testPassport {
     }
     @Test
     void testToStringPassport(){
-        assertEquals(passport1.toString(), "Passport {" + "nif='" + nif1 + '\'' + "bioData='" + biodata1 + '\'' + '}');
-        assertEquals(passport2.toString(), "Passport {" + "nif='" + nif2 + '\'' + "bioData='" + bioData2 + '\'' + '}');
+        assertEquals("Passport {" + "nif='" + nif1 + '\'' + "bioData='" + biodata1 + '\'' + '}', passport1.toString());
+        assertEquals("Passport {" + "nif='" + nif2 + '\'' + "bioData='" + bioData2 + '\'' + '}', passport2.toString());
     }
 }
