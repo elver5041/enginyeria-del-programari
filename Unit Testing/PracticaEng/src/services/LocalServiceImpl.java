@@ -10,9 +10,6 @@ public class LocalServiceImpl implements LocalService{
     public LocalServiceImpl(){
         logins = new HashMap<>();
     }
-    public LocalServiceImpl(HashMap<String,Password> logins){
-        this.logins = logins;
-    }
     public void addInfo(String login, Password pass){
         logins.put(login,pass);
     }

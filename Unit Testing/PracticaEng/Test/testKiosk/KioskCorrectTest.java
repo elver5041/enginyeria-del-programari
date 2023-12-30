@@ -116,5 +116,6 @@ public class KioskCorrectTest {
         votVell.consultVotingOption(new VotingOption("VOX"));
         votVell.vote();
         votVell.confirmVotingOption('y');
+        votVell.recount(); //En no fer reset es guarden els vots de tots els tests
     }
 }

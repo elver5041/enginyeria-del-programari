@@ -10,9 +10,6 @@ import java.util.Random;
 public class PassportBiometricImpl implements PassportBiometricScanner{
     private Passport passport;
     private final Random rngGen;
-    public PassportBiometricImpl(){
-        rngGen = new Random();
-    }
     public PassportBiometricImpl(long seed){ rngGen = new Random(seed); }
     public void inputPassport(Passport pass){
         passport = pass;
