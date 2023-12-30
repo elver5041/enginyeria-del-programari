@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class kioskErrorsDNItest {
+public class kioskErrorsDNTest {
 
     public static VotingKiosk votVell;
     public static ScrutinyImpl scrut;
@@ -27,12 +27,14 @@ public class kioskErrorsDNItest {
     public static ElectoralOrganismImpl organism;
 
     @BeforeEach
-    public void reset() {
+    public void reset() throws NotValidNifException {
         votVell = new VotingKiosk();
         votVell.setScrutiny(scrut);
         votVell.setLocalService(serverLoc);
+        HashMap<Nif, Boolean> votants = new HashMap<>();
+        votants.put(new Nif("39955425D"), true);
+        organism = new ElectoralOrganismImpl(votants, 473473737L);
         votVell.setElectoralOrganism(organism);
-        organism.setSeed(473473737L);
     }
 
     @BeforeAll
@@ -40,11 +42,6 @@ public class kioskErrorsDNItest {
         scrut = new ScrutinyImpl(new HashMap<>());
         serverLoc = new LocalServiceImpl();
         serverLoc.addInfo("Manolo", new Password("socvisiblexd_"));
-        HashMap<Nif, Boolean> votants = new HashMap<>();
-        votants.put(new Nif("39955425D"), true);
-        votants.put(new Nif("39955426X"), true);
-        votants.put(new Nif("39955427B"), true);
-        organism = new ElectoralOrganismImpl(votants);
         List<VotingOption> partits = new ArrayList<>();
         partits.add(new VotingOption("PNOA"));
         partits.add(new VotingOption("VOX"));
@@ -53,7 +50,6 @@ public class kioskErrorsDNItest {
         partits.add(new VotingOption("FE"));
         scrut.initVoteCount(partits);
     }
-
     @Test
     public void OperateWithoutStart(){
         assertThrows(ProceduralException.class, () -> votVell.setDocument('z'));
@@ -149,4 +145,25 @@ public class kioskErrorsDNItest {
         assertThrows(ProceduralException.class, () -> votVell.grantExplicitConsent('y'));
     }
 
+    @Test
+    public void SPersonVoting2Times() throws ProceduralException, InvalidAccountException, InvalidDNIDocumException, NotValidNifException, NotEnabledException, ConnectException {
+        votVell.initVoting();
+        votVell.setDocument('d');
+        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
+        votVell.confirmIdentif('y');
+        votVell.enterNif(new Nif("39955425D"));
+        votVell.initOptionsNavigation();
+        votVell.consultVotingOption(new VotingOption("PNOA"));
+        votVell.vote();
+        votVell.confirmVotingOption('n');
+        votVell.consultVotingOption(new VotingOption("VOX"));
+        votVell.vote();
+        votVell.confirmVotingOption('y');
+
+        votVell.initVoting();
+        votVell.setDocument('d');
+        votVell.enterAccount("Manolo", new Password("socvisiblexd_"));
+        votVell.confirmIdentif('y');
+        assertThrows(NotEnabledException.class, () -> votVell.enterNif(new Nif("39955425D")));
+    }
 }

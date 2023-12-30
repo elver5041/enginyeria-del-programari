@@ -108,7 +108,7 @@ public class KioskCorrectTest {
         votVell.enableFingerScanner();
         HBI.setReturnData(new byte[]{1});
         votVell.readFingerprintBiometrics();
-
+        votVell.disableFingerScanner();
         votVell.initOptionsNavigation();
         votVell.consultVotingOption(new VotingOption("PNOA"));
         votVell.vote();
