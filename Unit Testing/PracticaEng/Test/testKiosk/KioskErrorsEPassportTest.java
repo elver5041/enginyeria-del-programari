@@ -79,6 +79,16 @@ public class KioskErrorsEPassportTest {
     }
 
     @Test
+    public void ErrorReadingPassport() throws ProceduralException, NotValidNifException {
+        votVell.initVoting();
+        votVell.setDocument('p');
+        votVell.grantExplicitConsent('y');
+        PBI.setSeed(13L); //El segon cop aquesta semilla falla
+        PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
+        assertThrows(PassportBiometricReadingException.class, () -> votVell.readPassport());
+    }
+
+    @Test
     public void ErrorLectureFaceHBiometrics() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException {
         votVell.initVoting();
         votVell.setDocument('p');

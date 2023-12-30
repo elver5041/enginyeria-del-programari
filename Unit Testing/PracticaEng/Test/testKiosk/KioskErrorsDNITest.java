@@ -87,6 +87,13 @@ public class KioskErrorsDNITest {
     }
 
     @Test
+    public void PersonalDeniesDNI() throws ProceduralException {
+        votVell.initVoting();
+        votVell.setDocument('d');
+        assertThrows(InvalidDNIDocumException.class, () -> votVell.confirmIdentif('n'));
+    }
+
+    @Test
     public void notValidDNI() throws ProceduralException, InvalidDNIDocumException {
         votVell.initVoting();
         votVell.setDocument('d');

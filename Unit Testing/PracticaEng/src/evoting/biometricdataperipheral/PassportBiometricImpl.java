@@ -4,7 +4,6 @@ import data.Nif;
 import data.Passport;
 import exceptions.NotValidPassportException;
 import exceptions.PassportBiometricReadingException;
-
 import java.util.Random;
 
 public class PassportBiometricImpl implements PassportBiometricScanner{
