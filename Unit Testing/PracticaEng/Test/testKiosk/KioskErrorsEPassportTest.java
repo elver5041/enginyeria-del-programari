@@ -116,14 +116,17 @@ public class KioskErrorsEPassportTest {
     }
 
     @Test
-    public void FaceNotCoincident() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException {
+    public void FaceNotCoincident() throws ProceduralException, NotValidNifException, PassportBiometricReadingException, NotValidPassportException, HumanBiometricScanningException {
         votVell.initVoting();
         votVell.setDocument('p');
         votVell.grantExplicitConsent('y');
         PBI.inputPassport(new Passport(new Nif("39955425D"), new BiometricData(new SingleBiometricData(new byte[]{0}), new SingleBiometricData(new byte[]{1}))));
         votVell.readPassport();
         HBI.setReturnData(new byte[]{15});
-        assertThrows(BiometricVerificationFailedException.class, () -> votVell.readFaceBiometrics());
+        votVell.readFaceBiometrics();
+        votVell.enableFingerScanner();
+        HBI.setReturnData(new byte[]{1});
+        assertThrows(BiometricVerificationFailedException.class, () -> votVell.readFingerprintBiometrics());
     }
 
     @Test
