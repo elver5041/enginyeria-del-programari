@@ -10,7 +10,9 @@ final public class BiometricData {
     public SingleBiometricData getFaceBiometric () {
         return faceBiometric;
     }
-    public SingleBiometricData getFingerBiometric () { return fingerBiometric; }
+    public SingleBiometricData getFingerBiometric () {
+        return fingerBiometric;
+    }
 
     @Override
     public boolean equals (Object o) {

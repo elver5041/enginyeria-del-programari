@@ -113,10 +113,11 @@ public class VotingKiosk {
             throw new ProceduralException("cap opcio seleccionada");
 
         if (conf == 'y' || conf == 's') {
-            electoralOrganism.disableVoter(nif);
+            System.out.println("vot en procés...");
             scrutiny.scrutinize(vO);
-            System.out.println("votat correctament");
+            electoralOrganism.disableVoter(nif);
             finalizeSession();
+            System.out.println("votat correctament");
         } else if(conf == 'n'){
             vO = null;
             System.out.println("retornant al menu de navegacio");
